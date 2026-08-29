@@ -4,7 +4,7 @@
   "description": "WanderLust - Airbnb-inspired property listing platform built with Node.js, Express, MongoDB, EJS, and Passport sessions.",
   "main": "app.js",
   "engines": {
-    "node": ">=18.18.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "node app.js",
