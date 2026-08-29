@@ -7,7 +7,7 @@ const {
     validateListing,
     isListingOwner,
     isValidObjectId,
-} = require("../middleware.js");
+} = require("../middlewares.js");
 const { upload } = require("../config/cloudinary");
 
 

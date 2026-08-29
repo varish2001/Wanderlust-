@@ -7,7 +7,7 @@ const {
     validateReview,
     isReviewAuthor,
     isValidObjectId,
-} = require("../middleware.js");
+} = require("../middlewares.js");
 
 
 //Reviews 
