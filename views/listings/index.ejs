@@ -1,48 +1,87 @@
 <% layout("/layouts/boilerplate") %>
-<section class="listings-page py-3">
-    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+<section class="section-block">
+    <div class="section-heading">
         <div>
-            <h3 class="mb-1">All Listings</h3>
-            <p class="text-muted mb-0">Explore stays curated for your next trip.</p>
+            <span class="eyebrow">Discover</span>
+            <h1>Browse all listings</h1>
+            <p class="muted">Search, filter, and compare standout places before your next stay.</p>
         </div>
-        <a href="/listings/new" class="btn btn-dark">Create New Listing</a>
+        <a href="/listings/new" class="btn btn-primary-soft">Create listing</a>
     </div>
 
+    <div class="stats-row">
+        <article class="mini-stat"><span>Total listings</span><strong><%= stats.totalListings || 0 %></strong></article>
+        <article class="mini-stat"><span>Total reviews</span><strong><%= stats.totalReviews || 0 %></strong></article>
+        <article class="mini-stat"><span>Popular threshold</span><strong><%= stats.mostPopularScore || 0 %> reviews</strong></article>
+    </div>
+
+    <form class="filter-shell" action="/listings" method="GET">
+        <div class="filter-grid">
+            <div class="form-group">
+                <label for="search">Search</label>
+                <input id="search" type="text" name="search" value="<%= filters.search %>" class="form-control" placeholder="Search title, location, or country">
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-select">
+                    <option value="">All categories</option>
+                    <% categories.forEach((category) => { %>
+                        <option value="<%= category %>" <%= filters.category === category ? "selected" : "" %>><%= category %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="maxPrice">Max budget</label>
+                <input id="maxPrice" type="number" name="maxPrice" value="<%= filters.maxPrice %>" class="form-control" placeholder="5000">
+            </div>
+            <div class="form-check toggle-check">
+                <input id="popular" class="form-check-input" type="checkbox" name="popular" value="true" <%= filters.popular === "true" ? "checked" : "" %>>
+                <label class="form-check-label" for="popular">Popular only</label>
+            </div>
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-primary-soft" type="submit">Apply filters</button>
+            <a href="/listings" class="btn btn-outline-dark">Clear</a>
+        </div>
+    </form>
+
     <% if (!allListings.length) { %>
-        <div class="empty-state text-center py-5">
-            <h4 class="mb-2">No listings yet</h4>
-            <p class="text-muted mb-3">Start by creating your first stay.</p>
-            <a href="/listings/new" class="btn btn-dark">Add Listing</a>
+        <div class="empty-state">
+            <h3>No listings match these filters</h3>
+            <p>Try a broader search or clear the filters to explore every stay.</p>
+            <a href="/listings" class="btn btn-primary-soft">Reset filters</a>
         </div>
     <% } %>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="listing-grid">
         <% for(let listing of allListings) { %>
-            <div class="col">
-                <a href="/listings/<%= listing._id %>" class="listing-link">
-                    <div class="card col listing-card h-100">
-                        <img
-                            src="<%= listing.image %>"
-                            class="card-img-top listing-image"
-                            alt="<%= listing.title %>"
-                        >
-                        <div class="card-img-overlay listing-overlay"></div>
-                        <div class="card-body">
-                            <p class="card-text mb-1">
-                                <b><%= listing.title %></b>
-                            </p>
-                            <p class="card-text text-muted mb-0">
-                                <%= listing.location %>, <%= listing.country %>
-                            </p>
-                            <p class="card-text mt-2">
-                                &#8377; <%= Number(listing.price || 0).toLocaleString("en-IN") %> / night
-                            </p>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <article class="listing-card">
+                    <img src="<%= listing.heroImage || listing.image %>" class="listing-image" alt="<%= listing.title %>">
+                    <div class="listing-card-content">
+                        <div class="listing-card-topline">
+                            <span class="pill"><%= listing.category %></span>
+                            <span class="muted"><%= listing.reviewCount || 0 %> reviews</span>
                         </div>
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.location %>, <%= listing.country %></p>
+                        <strong>&#8377; <%= Number(listing.price || 0).toLocaleString("en-IN") %> / night</strong>
                     </div>
-                </a>
-            </div>
+                </article>
+            </a>
         <% } %>
     </div>
-</section>
- 
 
+    <% if (totalPages > 1) { %>
+        <nav class="pagination-shell" aria-label="Listings pagination">
+            <% for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) { %>
+                <a
+                    href="/listings?<%= new URLSearchParams({ ...filters, page: pageNumber }).toString() %>"
+                    class="pagination-pill <%= currentPage === pageNumber ? 'active' : '' %>"
+                >
+                    <%= pageNumber %>
+                </a>
+            <% } %>
+        </nav>
+    <% } %>
+</section>

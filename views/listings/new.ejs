@@ -1,65 +1,69 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row mt-3">
-    <div class="col-8 offset-2"> 
-        <br><br>
-<h3>Create a new listing</h3>
-<form method="POST" action="/listings">
-
-    <div class="mb-3"> 
-    <label for="title" class="form-label">Title</label>
-    <input name="listing[title]" placeholder="Add a catchy title" 
-    type="text" class="form-control"/>
+<section class="form-shell">
+    <div class="form-header">
+        <span class="eyebrow">Host</span>
+        <h1>Create a new listing</h1>
+        <p class="muted">Add the details travelers care about most, then publish a polished stay page.</p>
     </div>
-    
-    <div class="mb-3"> 
-        <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" 
-        placeholder="enter description" 
-        class="form-control" ></textarea>
-    </div>
-    
-    <div class="mb-3"> 
-        <label for="image" class="form-label">Image URL</label>
-         <input name="listing[image]" 
-         placeholder="enter image URL" 
-         type="text" class="form-control"/>
-         
+    <form method="POST" action="/listings" enctype="multipart/form-data" class="stack-form needs-validation" novalidate>
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" name="listing[title]" placeholder="Add a memorable title" type="text" class="form-control" required minlength="4">
+        </div>
+        
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="listing[description]" placeholder="Describe the experience, comfort, and vibe." class="form-control" rows="5" required minlength="20"></textarea>
+        </div>
 
-    </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" name="listing[category]" class="form-select" required>
+                    <option value="">Select a category</option>
+                    <option value="Trending">Trending</option>
+                    <option value="Beach">Beach</option>
+                    <option value="Cabin">Cabin</option>
+                    <option value="City">City</option>
+                    <option value="Luxury">Luxury</option>
+                    <option value="Mountain">Mountain</option>
+                    <option value="Nature">Nature</option>
+                    <option value="Budget">Budget</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price" class="form-label">Price per night</label>
+                <input id="price" name="listing[price]" placeholder="1200" type="number" class="form-control" min="0" required>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="mb-3 col-md-4">
-        <label for="price" class="form-label">Price</label>
-        <input name="listing[price]" 
-        placeholder="1200" 
-        type="number" class="form-control" required/>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="country" class="form-label">Country</label>
+                <input id="country" name="listing[country]" placeholder="India" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="location" class="form-label">Location</label>
+                <input id="location" name="listing[location]" placeholder="Goa, Jaipur, Bali" type="text" class="form-control" required>
+            </div>
+        </div>
 
-    </div>
-    
-    <div class="mb-3 col-md-8"> 
-        <label for="country" class="form-label">Country</label>
-        <input name="listing[country]"
-        placeholder="India" 
-        type="text" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label for="image" class="form-label">Primary image URL</label>
+            <input id="image" name="listing[image]" placeholder="https://example.com/stay.jpg" type="url" class="form-control">
+        </div>
 
-    </div>
-   
-    
-    
-    
-    <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input name="listing[location]" 
-        placeholder="Delhi, Jaipur" 
-        type="text" class="form-control" />
-    </div>
-    
-    
-    <button class="btn btn-dark add-btn mt-3">ADD</button>
-    
-</form>
+        <div class="form-group">
+            <label for="imageGallery" class="form-label">Additional image URLs</label>
+            <textarea id="imageGallery" name="listing[imageGallery]" class="form-control" rows="3" placeholder="Add one image URL per line"></textarea>
+        </div>
 
-</div>
+        <div class="form-group">
+            <label for="images" class="form-label">Upload images</label>
+            <input id="images" name="images" type="file" accept="image/*" multiple class="form-control">
+            <small class="muted">Cloudinary uploads work when `CLOUDINARY_*` environment variables are configured.</small>
+        </div>
 
-</div>
+        <button class="btn btn-primary-soft submit-button mt-2">Publish listing</button>
+    </form>
+</section>

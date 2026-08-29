@@ -1,70 +1,62 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row mt-3">
-    <div class="col-8 offset-2">
-
-    
-<h3>Edit Your Listing</h3>
-<form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
-    <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input name="listing[title]" 
-        placeholder="enter title" 
-        type="text" value="<%= listing.title %>" 
-        class="form-control"/>
-
+<section class="form-shell">
+    <div class="form-header">
+        <span class="eyebrow">Update</span>
+        <h1>Edit your listing</h1>
+        <p class="muted">Refresh the stay details, pricing, and imagery without losing the current page structure.</p>
     </div>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="stack-form needs-validation" novalidate>
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" name="listing[title]" placeholder="Enter title" type="text" value="<%= listing.title %>" class="form-control" required minlength="4">
+        </div>
 
-    
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" 
-        placeholder="enter description" class="form-control"><%= listing.description %></textarea>
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="listing[description]" placeholder="Enter description" class="form-control" rows="5" required minlength="20"><%= listing.description %></textarea>
+        </div>
 
-    </div>
-    
-    <div class="mb-3">
-        <label for="image" class="form-label">Image Link</label>
-        <input name="listing[image]"
-         placeholder="enter image URL" 
-         type="text" value="<%= listing.image %>"
-          class="form-control"/>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" name="listing[category]" class="form-select" required>
+                    <% ["Trending", "Beach", "Cabin", "City", "Luxury", "Mountain", "Nature", "Budget"].forEach((category) => { %>
+                        <option value="<%= category %>" <%= listing.category === category ? "selected" : "" %>><%= category %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price" class="form-label">Price</label>
+                <input id="price" name="listing[price]" placeholder="Enter price" type="number" value="<%= listing.price %>" class="form-control" min="0" required>
+            </div>
+        </div>
 
-    </div>
-    
-    <div class="row">
-    <div class="mb-3 col-md-4">
-        <label for="price" class="form-label">Price</label>
-        <input name="listing[price]" 
-        placeholder="enter price" 
-        type="number" value="<%= listing.price %>" class="form-control"/>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="country" class="form-label">Country</label>
+                <input id="country" name="listing[country]" placeholder="Enter country" type="text" value="<%= listing.country %>" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="location" class="form-label">Location</label>
+                <input id="location" name="listing[location]" placeholder="Enter location" type="text" value="<%= listing.location %>" class="form-control" required>
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label for="image" class="form-label">Primary image URL</label>
+            <input id="image" name="listing[image]" placeholder="Enter image URL" type="url" value="<%= listing.image %>" class="form-control">
+        </div>
 
-    </div>
-    
-    <div class="mb-3 col-md-8">
-        <label for="country" class="form-label">Country</label>
-        <input name="listing[country]"
-         placeholder="enter country" 
-         type="text" value="<%= listing.country %>" 
-         class="form-control"/>
+        <div class="form-group">
+            <label for="imageGallery" class="form-label">Additional image URLs</label>
+            <textarea id="imageGallery" name="listing[imageGallery]" class="form-control" rows="3" placeholder="One image URL per line"><%= (listing.images || []).slice(1).map((image) => image.url).join("\n") %></textarea>
+        </div>
 
+        <div class="form-group">
+            <label for="images" class="form-label">Upload new images</label>
+            <input id="images" name="images" type="file" accept="image/*" multiple class="form-control">
+        </div>
 
-    </div>
-    </div>
-    
-    <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input name="listing[location]" 
-        placeholder="enter location" 
-        type="text" value="<%= listing.location %>" 
-        class="form-control"/>
-    </div>
-    
-    
-    <button class="btn btn-dark edit-btn mt-3">Edit</button>
-</form>
-<br>
-<!-- <a href="/listings/<%= listing._id %>">Back to Listing</a> -->
-
-</div>
-</div>
+        <button class="btn btn-primary-soft submit-button mt-2">Save changes</button>
+    </form>
+</section>

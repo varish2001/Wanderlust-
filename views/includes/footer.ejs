@@ -1,18 +1,38 @@
-<footer>
-    <div class="f-info">
-        <div class="f-info-socials">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-square-linkedin"></i>
-
+<footer class="site-footer">
+    <div class="page-container footer-grid">
+        <div>
+            <a class="brand-mark footer-brand" href="/">
+                <i class="fa-regular fa-compass"></i>
+                <span>WanderLust</span>
+            </a>
+            <p>
+                An Airbnb-inspired full-stack platform built to showcase polished product thinking,
+                modern UI, and production-ready Node.js architecture.
+            </p>
         </div>
-        <div class="f-info-brand"> &copy; Wanderlust Private Limited</div>
-        
-        <div class="f-info-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms"> Terms</a>
+        <div>
+            <h3>Explore</h3>
+            <a href="/listings">All listings</a>
+            <a href="/listings/new">Create listing</a>
+            <a href="/dashboard">Dashboard</a>
         </div>
-
-
+        <div>
+            <h3>Built with</h3>
+            <a href="/">Node.js</a>
+            <a href="/">Express + MongoDB</a>
+            <a href="/">EJS + Passport</a>
+        </div>
+        <div>
+            <h3>Follow</h3>
+            <div class="footer-socials">
+                <i class="fa-brands fa-square-facebook"></i>
+                <i class="fa-brands fa-square-instagram"></i>
+                <i class="fa-brands fa-square-linkedin"></i>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; <%= new Date().getFullYear() %> WanderLust</span>
+        <span>Designed for portfolio-ready full-stack demos</span>
     </div>
 </footer>

@@ -1,0 +1,85 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="dashboard-shell">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Dashboard</span>
+            <h1>Hello, <%= currUser.username %></h1>
+            <p class="muted">Manage your listings, reviews, and saved stays from one place.</p>
+        </div>
+        <a href="/listings/new" class="btn btn-primary-soft">Create listing</a>
+    </div>
+
+    <div class="stats-row">
+        <article class="mini-stat"><span>My listings</span><strong><%= stats.totalListings %></strong></article>
+        <article class="mini-stat"><span>My reviews</span><strong><%= stats.totalReviews %></strong></article>
+        <article class="mini-stat"><span>Saved stays</span><strong><%= stats.savedCount %></strong></article>
+    </div>
+
+    <div class="dashboard-grid">
+        <section class="dashboard-panel">
+            <div class="section-heading compact">
+                <h2>My Listings</h2>
+            </div>
+            <% if (!myListings.length) { %>
+                <div class="empty-state">
+                    <h3>No listings yet</h3>
+                    <p>Create your first hosted stay to start building your portfolio.</p>
+                </div>
+            <% } %>
+            <% myListings.forEach((listing) => { %>
+                <a href="/listings/<%= listing._id %>" class="dashboard-item">
+                    <img src="<%= listing.heroImage || listing.image %>" alt="<%= listing.title %>">
+                    <div>
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.location %>, <%= listing.country %></p>
+                    </div>
+                    <strong>&#8377; <%= Number(listing.price || 0).toLocaleString("en-IN") %></strong>
+                </a>
+            <% }) %>
+        </section>
+
+        <section class="dashboard-panel">
+            <div class="section-heading compact">
+                <h2>Saved Listings</h2>
+            </div>
+            <% if (!savedListings.length) { %>
+                <div class="empty-state">
+                    <h3>No saved listings</h3>
+                    <p>Tap the wishlist button on a listing to save it here.</p>
+                </div>
+            <% } %>
+            <% savedListings.forEach((listing) => { %>
+                <a href="/listings/<%= listing._id %>" class="dashboard-item">
+                    <img src="<%= listing.heroImage || listing.image %>" alt="<%= listing.title %>">
+                    <div>
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.location %>, <%= listing.country %></p>
+                    </div>
+                    <strong><%= listing.category %></strong>
+                </a>
+            <% }) %>
+        </section>
+    </div>
+
+    <section class="dashboard-panel">
+        <div class="section-heading compact">
+            <h2>My Reviews</h2>
+        </div>
+        <% if (!myReviews.length) { %>
+            <div class="empty-state">
+                <h3>No reviews yet</h3>
+                <p>Share feedback on places you love and help other travelers decide faster.</p>
+            </div>
+        <% } %>
+        <% myReviews.forEach((review) => { %>
+            <div class="review-row">
+                <div>
+                    <h3><%= review.listing?.title || "Listing removed" %></h3>
+                    <p class="muted"><%= review.comment %></p>
+                </div>
+                <span class="pill"><%= review.rating %>/5</span>
+            </div>
+        <% }) %>
+    </section>
+</section>

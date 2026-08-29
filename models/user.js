@@ -22,6 +22,12 @@ const userSchema = new Schema({
     // These are kept only as a safe fallback for older records.
     hash: String,
     salt: String,
+    savedListings: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Listing",
+        },
+    ],
 });
 
 module.exports = mongoose.model("User", userSchema);

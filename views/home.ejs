@@ -1,0 +1,102 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="hero-section">
+    <div class="hero-copy">
+        <span class="eyebrow">Curated stays for modern travelers</span>
+        <h1>Book memorable places that feel like the trip itself.</h1>
+        <p>
+            WanderLust helps guests discover standout homes, bold city stays, and peaceful
+            escapes with a polished booking-style browsing experience.
+        </p>
+        <div class="hero-actions">
+            <a href="/listings" class="btn btn-primary-soft">Explore listings</a>
+            <a href="/listings/new" class="btn btn-outline-dark">Host your place</a>
+        </div>
+    </div>
+    <div class="hero-panel">
+        <div class="metric-card">
+            <span>Listings</span>
+            <strong><%= stats.totalListings %>+</strong>
+        </div>
+        <div class="metric-card">
+            <span>Reviews</span>
+            <strong><%= stats.totalReviews %>+</strong>
+        </div>
+        <div class="metric-card">
+            <span>Average nightly rate</span>
+            <strong>&#8377; <%= Math.round(stats.averagePrice || 0).toLocaleString("en-IN") %></strong>
+        </div>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Top picks</span>
+            <h2>Popular right now</h2>
+        </div>
+        <a href="/listings" class="text-link">See all stays</a>
+    </div>
+    <div class="listing-grid listing-grid-featured">
+        <% featuredListings.forEach((listing) => { %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <article class="listing-card listing-card-featured">
+                    <img src="<%= listing.heroImage || listing.image %>" alt="<%= listing.title %>" class="listing-image">
+                    <div class="listing-card-content">
+                        <div class="listing-card-topline">
+                            <span class="pill"><%= listing.category %></span>
+                            <span class="muted"><%= listing.reviewCount || 0 %> reviews</span>
+                        </div>
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.location %>, <%= listing.country %></p>
+                        <strong>&#8377; <%= Number(listing.price || 0).toLocaleString("en-IN") %> / night</strong>
+                    </div>
+                </article>
+            </a>
+        <% }) %>
+    </div>
+</section>
+
+<section class="section-block section-split">
+    <div>
+        <span class="eyebrow">Why WanderLust</span>
+        <h2>Built like a recruiter-ready full-stack product</h2>
+    </div>
+    <div class="feature-grid">
+        <article class="feature-card">
+            <h3>Fast discovery</h3>
+            <p>Search by title, location, and country with budget and category filters.</p>
+        </article>
+        <article class="feature-card">
+            <h3>Traveler tools</h3>
+            <p>Save listings, manage reviews, and track your own hosted properties from one dashboard.</p>
+        </article>
+        <article class="feature-card">
+            <h3>Production minded</h3>
+            <p>Sessions, validation, error handling, and deployment-friendly configuration are built in.</p>
+        </article>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Fresh arrivals</span>
+            <h2>Recently added stays</h2>
+        </div>
+    </div>
+    <div class="listing-grid">
+        <% recentListings.forEach((listing) => { %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <article class="listing-card">
+                    <img src="<%= listing.heroImage || listing.image %>" alt="<%= listing.title %>" class="listing-image">
+                    <div class="listing-card-content">
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.location %>, <%= listing.country %></p>
+                        <strong>&#8377; <%= Number(listing.price || 0).toLocaleString("en-IN") %> / night</strong>
+                    </div>
+                </article>
+            </a>
+        <% }) %>
+    </div>
+</section>
